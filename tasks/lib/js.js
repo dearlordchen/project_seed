@@ -9,11 +9,11 @@ var path = require('path');
 var config = require('./config.js');
 var watch = require('gulp-watch');
 
-module.exports.run = function(pageName, subPath) {
-    var filePath = subPath ? path.join(config.root.src, config.tasks.js.src, subPath, pageName + '.js') : path.join(config.root.src, config.tasks.js.src, pageName + '.js');
-    var destPath = subPath ? path.join(config.root.dest, config.tasks.js.dest, subPath) : path.join(config.root.dest, config.tasks.js.dest);
+module.exports.run = function (pageName, subPath) {
+    var filePath = path.join(config.root.src, config.tasks.js.src, subPath, pageName + '.js');
+    var destPath = path.join(config.root.dest, config.tasks.js.dest, subPath);
 
-    watch(filePath, function() {
+    watch(filePath, function () {
         var b = browserify({
             entries: filePath,
             debug: true
