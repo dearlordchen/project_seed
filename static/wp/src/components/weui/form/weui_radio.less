@@ -1,0 +1,35 @@
+// check common
+.weui_check_label {
+    .setTapColor();
+}
+
+.weui_check{
+    position: absolute;
+    left: -9999em;
+}
+
+// radio style
+.weui_cell_radio{
+    .weui_cell_ft {
+        padding-left: @weuiCellInnerGapH;
+    }
+    &:active {
+        background-color: #ECECEC;
+    }
+}
+
+.weui_check {
+    // radio
+    .weui_cell_radio & {
+      opacity: 0;
+        &:checked {
+            & + .weui_icon_checked {
+                &:before {
+                    content: '\EA08';
+                    color: #09BB07;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}

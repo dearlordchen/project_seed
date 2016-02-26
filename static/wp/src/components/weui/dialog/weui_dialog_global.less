@@ -1,0 +1,159 @@
+//
+// Variables
+// ---------------------
+@globalTextColor: #888;
+
+@weuiDialogBackgroundColor: #FAFAFC;
+@weuiDialogLineColor: #D5D5D6;
+@weuiDialogLinkColor: #3CC51F;
+@weuiDialogLinkActiveBc: #EEEEEE;
+
+
+//
+// Mixins
+// ---------------------
+.setTapColor(@c:rgba(0,0,0,0)) {
+    -webkit-tap-highlight-color: @c;
+}
+.setTopLine(@c: #C7C7C7) {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 1px;
+    border-top: 1px solid @c;
+    color: @c;
+    transform-origin: 0 0;
+    transform: scaleY(0.5);
+}
+.setLeftLine(@c: #C7C7C7) {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    border-left: 1px solid @c;
+    color: @c;
+    transform-origin: 0 0;
+    transform: scaleX(0.5);
+}
+
+
+//
+// Dialog Style
+// ---------------------
+.weui_mask {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .6);
+}
+
+.weui_dialog {
+    position: fixed;
+    z-index: 13;
+    width: 85%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: @weuiDialogBackgroundColor;
+    text-align: center;
+    border-radius: 3px;
+    .weui_dialog_confirm & {
+        .weui_dialog_hd {
+            padding: 1.2em 20px .5em;
+        }
+        .weui_dialog_bd {
+            text-align: left;
+        }
+    }
+}
+
+.weui_dialog_hd {
+    padding: 1.2em 0 .5em;
+}
+
+.weui_dialog_title {
+    font-weight: 400;
+    font-size: 17px;
+}
+
+.weui_dialog_bd {
+    padding: 0 20px;
+    font-size: 15px;
+    color: @globalTextColor;
+    text-align: left;
+}
+
+.weui_dialog_ft {
+    position: relative;
+    line-height: 42px;
+    margin-top: 20px;
+    font-size: 17px;
+    display: flex;
+    a {
+        display: block;
+        flex: 1;
+        color: @weuiDialogLinkColor;
+        text-decoration: none;
+        .setTapColor;
+        &:active {
+            background-color: @weuiDialogLinkActiveBc;
+        }
+    }
+    &:after {
+        content: " ";
+        .setTopLine(@weuiDialogLineColor);
+    }
+    .weui_dialog_confirm & {
+        a {
+            position: relative;
+            &:after {
+                content: " ";
+                .setLeftLine(@weuiDialogLineColor);
+            }
+            &:first-child {
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+    .weui_dialog_general & {
+        display: block;
+        a {
+            position: relative;
+            display: block;
+            &:before {
+                content: " ";
+                .setTopLine(@weuiDialogLineColor);
+            }
+            &:first-child {
+                &:before {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.weui_btn_dialog {
+    &.default {
+        color: #353535;
+    }
+    &.primary {
+        color: #0BB20C;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .weui_dialog {
+        width: 35%;
+    }
+}
