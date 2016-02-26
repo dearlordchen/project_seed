@@ -6,16 +6,13 @@ module.exports = {
         vendor: ['vue', 'vue-router']
     },*/
     module: {
-        resolve: {
-            extensions: ['', '.js', '.jsx']
-        },
         //加载器配置
         loaders: [{
             test: /\.vue$/,
             loader: 'vue'
         }, {
             test: /\.js$/,
-            loader: 'babel!eslint',
+            loader: 'babel',
             exclude: /node_modules/
         }, {
             test: /\.json$/,
@@ -34,21 +31,24 @@ module.exports = {
     },
     vue: {
         loaders: {
-            js: 'babel!eslint'
+            js: 'babel'
         }
     },
     eslint: {
         formatter: require('eslint-friendly-formatter')
     },
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            // filename: "vendor.js"
-            // (Give the chunk a different name)
-            minChunks: Infinity
-                // (with more entries, this ensures that no other module
-                //  goes into the vendor chunk)
-        })
+
     ],
-    devtool: 'source-map'
+    devtool: 'source-map',
+    resolve: {
+        extensions: ['', '.js']
+    },
+    externals: {
+        // require("jquery") is external and available
+        //  on the global var jQuery
+        "jquery": "jQuery",
+        "vue": "Vue",
+        "vue-router": "VueRouter"
+    }
 };
