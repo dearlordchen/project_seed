@@ -12,7 +12,7 @@
         <div class="weui_grids">
             <a v-link="'button'" href="javascript:;" class="weui_grid js_grid" data-id="button">
                 <div class="weui_grid_icon">
-                    <img src="../../assets/homepage_icons/icon_nav_button.png" alt="">
+                    <img src="../../components/weui/assets/homepage_icons/icon_nav_button.png" alt="">
                 </div>
                 <p class="weui_grid_label">
                     Button
@@ -20,7 +20,7 @@
             </a>
             <a v-link="'cell'" href="javascript:;" class="weui_grid js_grid" data-id="cell">
                 <div class="weui_grid_icon">
-                    <img src="../../assets/homepage_icons/icon_nav_cell.png" alt="">
+                    <img src="../../components/weui/assets/homepage_icons/icon_nav_cell.png" alt="">
                 </div>
                 <p class="weui_grid_label">
                     Cell
@@ -28,7 +28,7 @@
             </a>
             <a v-link="'toast'" href="javascript:;" class="weui_grid js_grid" data-id="toast">
                 <div class="weui_grid_icon">
-                    <img src="../../assets/homepage_icons/icon_nav_toast.png" alt="">
+                    <img src="../../components/weui/assets/homepage_icons/icon_nav_toast.png" alt="">
                 </div>
                 <p class="weui_grid_label">
                     Toast
@@ -36,7 +36,7 @@
             </a>
             <a v-link="'dialog'" href="javascript:;" class="weui_grid js_grid" data-id="dialog">
                 <div class="weui_grid_icon">
-                    <img src="../../assets/homepage_icons/icon_nav_dialog.png" alt="">
+                    <img src="../../components/weui/assets/homepage_icons/icon_nav_dialog.png" alt="">
                 </div>
                 <p class="weui_grid_label">
                     Dialog
@@ -44,7 +44,7 @@
             </a>
             <a href="javascript:;" class="weui_grid js_grid" data-id="progress">
                 <div class="weui_grid_icon">
-                    <img src="../../assets/homepage_icons/icon_nav_button.png" alt="">
+                    <img src="../../components/weui/assets/homepage_icons/icon_nav_button.png" alt="">
                 </div>
                 <p class="weui_grid_label">
                     Progress
@@ -52,7 +52,7 @@
             </a>
             <a href="javascript:;" class="weui_grid js_grid" data-id="msg">
                 <div class="weui_grid_icon">
-                    <img src="../../assets/homepage_icons/icon_nav_msg.png" alt="">
+                    <img src="../../components/weui/assets/homepage_icons/icon_nav_msg.png" alt="">
                 </div>
                 <p class="weui_grid_label">
                     Msg
@@ -60,7 +60,7 @@
             </a>
             <a v-link="'form'" href="javascript:;" class="weui_grid js_grid" data-id="article">
                 <div class="weui_grid_icon">
-                    <img src="../../assets/homepage_icons/icon_nav_article.png" alt="">
+                    <img src="../../components/weui/assets/homepage_icons/icon_nav_article.png" alt="">
                 </div>
                 <p class="weui_grid_label">
                     Form
@@ -68,7 +68,7 @@
             </a>
             <a v-link="'actionsheet'" href="javascript:;" class="weui_grid js_grid" data-id="actionsheet">
                 <div class="weui_grid_icon">
-                    <img src="../../assets/homepage_icons/icon_nav_actionSheet.png" alt="">
+                    <img src="../../components/weui/assets/homepage_icons/icon_nav_actionSheet.png" alt="">
                 </div>
                 <p class="weui_grid_label">
                     ActionSheet
@@ -76,7 +76,7 @@
             </a>
             <a href="javascript:;" class="weui_grid js_grid" data-id="icons">
                 <div class="weui_grid_icon">
-                    <img src="../../assets/homepage_icons/icon_nav_icons.png" alt="">
+                    <img src="../../components/weui/assets/homepage_icons/icon_nav_icons.png" alt="">
                 </div>
                 <p class="weui_grid_label">
                     Icons

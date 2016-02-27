@@ -58,7 +58,7 @@ body {
 </template>
 
 <script>
-import Hello from '../components/Hello'
+import Hello from '../components/weui/Hello'
 import Toast from '../components/weui/toast/toast'
 import Dialog from '../components/weui/dialog/dialog'
 import ActionSheet from '../components/weui/action_sheet/action-sheet'
