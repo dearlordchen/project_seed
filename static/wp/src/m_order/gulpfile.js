@@ -8,6 +8,12 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 var viewName = 'm_order'
 
+gulp.task('watch', function(cb) {
+  var wpConfig = webpackProdConf.getConfig(__dirname, viewName, 'dev')
+  wpConfig.watch = true;
+  runWebpack(wpConfig, cb);
+})
+
 gulp.task('dev', function(cb) {
   var wpConfig = webpackProdConf.getConfig(__dirname, viewName, 'dev')
   runWebpack(wpConfig, cb);
@@ -25,6 +31,8 @@ function runWebpack(config, cb) {
     gutil.log('[build]', stats.toString({
       colors: true
     }))
-    cb()
+    if (!config.watch) {
+      cb()
+    }
   })
 }
