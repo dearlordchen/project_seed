@@ -28,6 +28,7 @@ gulp.task('build', function(cb) {
 function runWebpack(config, cb) {
   webpack(config, function(err, stats) {
     if (err) throw new gutil.PluginError('build', err)
+    console.log(stats)
     gutil.log('[build]', stats.toString({
       colors: true
     }))
