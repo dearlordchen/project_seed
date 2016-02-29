@@ -61,7 +61,7 @@
     </div>
     <div class="weui_cell_ft">
         <i class="weui_icon_warn" v-if="isWarning"></i>
-        <img src="../../../assets/vcode.jpg" v-if="ftImgSrc">
+        <img :src="ftImgSrc" v-if="ftImgSrc">
     </div>
 </div>
 </template>

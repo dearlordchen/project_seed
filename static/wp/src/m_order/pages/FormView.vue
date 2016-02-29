@@ -35,7 +35,7 @@ export default {
           isWarning: true
         }, {
           label: '验证码',
-          ftImgSrc: 'ftImgSrc'
+          ftImgSrc: '../asset/vcode.jpg'
         }, {
           label: '日期',
           type: 'date'

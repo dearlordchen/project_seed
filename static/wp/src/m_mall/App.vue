@@ -58,7 +58,6 @@ body {
 </template>
 
 <script>
-import Hello from '../components/Hello'
 import Toast from '../components/weui/toast/toast'
 import Dialog from '../components/weui/dialog/dialog'
 import ActionSheet from '../components/weui/action_sheet/action-sheet'
@@ -103,7 +102,6 @@ export default {
     }
   },
   components: {
-    Hello,
     'toast': Toast,
     'dialog': Dialog,
     'action-sheet': ActionSheet

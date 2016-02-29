@@ -1,57 +1,73 @@
 var gulp = require('gulp')
 var gutil = require('gulp-util')
+var clean = require('gulp-clean')
+var sftp = require('gulp-sftp')
 var webpack = require('webpack')
 var path = require('path')
 var webpackDevConf = require('../../config/webpack.dev.conf.js')
 var webpackProdConf = require('../../config/webpack.prod.conf.js')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var myConfig = require('../../config/my-config.json')
 
-// gulp.task('webpack-dev', function (cb) {
-//   var myConfig = Object.create(webpackDevConf)
-//
-//   myConfig.entry.app = path.resolve(__dirname, './main.js')
-//
-//   myConfig.plugins = (config.plugins || []).concat([
-//     new HtmlWebpackPlugin({
-//       filename: '../index.html',
-//       template: path.resolve(__dirname, './index.html'),
-//       chunks: ['app']
-//     })
-//   ])
-//
-//   webpack(myConfig, function (err, stats) {
-//     if (err) throw new gutil.PluginError('build', err)
-//     gutil.log('[build]', stats.toString({
-//       colors: true
-//     }))
-//     cb()
-//   })
-// })
+// view文件名
+var viewName = 'm_mall'
 
-gulp.task('webpack-prod', function (cb) {
-  var myConfig = Object.create(webpackProdConf)
+// 清除多余文件
+gulp.task('clean', function () {
+  return gulp.src(['../../dist/' + viewName + '/'], {read: false})
+    .pipe(clean({ force: true }))
+})
 
-  myConfig.entry.app = path.resolve(__dirname, './main.js')
+// 上传到dev服务器
+gulp.task('upload-dev', ['webpack-dev'], function () {
+  return gulp.src('../../dist/' + viewName + '/**')
+    .pipe(sftp({
+			host: myConfig.sftp.dev.host,
+      port: myConfig.sftp.dev.port,
+			user: myConfig.sftp.dev.user,
+			pass: myConfig.sftp.dev.pass,
+      remotePath: myConfig.sftp.dev.staticRemotePath + viewName
+		}))
+})
+gulp.task('upload-ssi-dev', ['upload-dev'], function () {
+  return gulp.src('../../../sinclude/wp/' + viewName + '/**')
+  .pipe(sftp({
+    host: myConfig.sftp.dev.host,
+    port: myConfig.sftp.dev.port,
+    user: myConfig.sftp.dev.user,
+    pass: myConfig.sftp.dev.pass,
+    remotePath: myConfig.sftp.dev.ssiRemotePath + viewName
+  }))
+})
 
-  myConfig.plugins = (myConfig.plugins || []).concat([
+// 打包压缩
+gulp.task('webpack-dev', ['clean'], function (cb) {
+  var webpackConf = Object.create(webpackDevConf)
+
+  webpackConf.entry[viewName] = path.resolve(__dirname, './main.js')
+
+  webpackConf.output.path += '/' + viewName + '/'
+  webpackConf.output.publicPath += '/' + viewName + '/'
+
+  webpackConf.plugins = (webpackConf.plugins || []).concat([
     new HtmlWebpackPlugin({
-      filename: '../index.html',
+      filename: 'html/index.html',
       template: path.resolve(__dirname, './index.html'),
-      chunks: ['app']
+      chunks: [viewName]
     }),
     new HtmlWebpackPlugin({
-      filename: '../cssi.html',
+      filename: '../../../sinclude/wp/' + viewName + '/cssi.html',
       template: path.resolve(__dirname, './cssi.html'),
-      chunks: ['app']
+      chunks: [viewName]
     }),
     new HtmlWebpackPlugin({
-      filename: '../jsi.html',
+      filename: '../../../sinclude/wp/' + viewName + '/jsi.html',
       template: path.resolve(__dirname, './jsi.html'),
-      chunks: ['app']
+      chunks: [viewName]
     })
   ])
 
-  webpack(myConfig, function (err, stats) {
+  webpack(webpackConf, function (err, stats) {
     if (err) throw new gutil.PluginError('build', err)
     gutil.log('[build]', stats.toString({
       colors: true
@@ -60,6 +76,44 @@ gulp.task('webpack-prod', function (cb) {
   })
 })
 
-gulp.task('build', function () {
-  gulp.start('webpack-prod')
+gulp.task('webpack-prod', function (cb) {
+  var webpackConf = Object.create(webpackProdConf)
+
+  webpackConf.entry[viewName] = path.resolve(__dirname, './main.js')
+
+  webpackConf.output.path += '/' + viewName + '/'
+  webpackConf.output.publicPath += '/' + viewName + '/'
+
+  webpackConf.plugins = (webpackConf.plugins || []).concat([
+    new HtmlWebpackPlugin({
+      filename: 'html/index.html',
+      template: path.resolve(__dirname, './index.html'),
+      chunks: [viewName]
+    }),
+    new HtmlWebpackPlugin({
+      filename: '../../../sinclude/wp/' + viewName + '/cssi.html',
+      template: path.resolve(__dirname, './cssi.html'),
+      chunks: [viewName]
+    }),
+    new HtmlWebpackPlugin({
+      filename: '../../../sinclude/wp/' + viewName + '/jsi.html',
+      template: path.resolve(__dirname, './jsi.html'),
+      chunks: [viewName]
+    })
+  ])
+
+  webpack(webpackConf, function (err, stats) {
+    if (err) throw new gutil.PluginError('build', err)
+    console.log(stats)
+    gutil.log('[build]', stats.toString({
+      colors: true
+    }))
+    if (!config.watch) {
+      cb()
+    }
+  })
+})
+
+gulp.task('default', ['upload-ssi-dev'], function () {
+  gulp.watch('./**', ['upload-ssi-dev'])
 })

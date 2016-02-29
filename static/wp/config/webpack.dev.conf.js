@@ -1,37 +1,69 @@
 var webpack = require('webpack')
 var config = require('./webpack.base.conf')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var devConfig = Object.create(config)
 
-// eval-source-map is faster for development
-devConfig.devtool = 'eval-source-map'
+// 静态文件地址
+devConfig.output.publicPath = 'https://st.midea.com/wp/dist'
 
-// add hot-reload related code to entry chunk
-// config.entry.app = [
-//   'eventsource-polyfill',
-//   'webpack-hot-middleware/client?quiet=true',
-//   config.entry.app
-// ]
-// config.entry.mall = [
-//   'eventsource-polyfill',
-//   'webpack-hot-middleware/client?quiet=true',
-//   config.entry.mall
-// ]
+// naming output files with hashes for better caching.
+// dist/index.html will be auto-generated with correct URLs.
+devConfig.output.filename = '[name].[hash:4].js'
 
-// necessary for the html plugin to work properly
-// when serving the html from in-memory
-devConfig.output.publicPath = '/'
+// whether to generate source map for production files.
+// disabling this can speed up the build.
+var SOURCE_MAP = true
+
+devConfig.devtool = SOURCE_MAP ? 'source-map' : false
+
+// generate loader string to be used with extract text plugin
+function generateExtractLoaders (loaders) {
+  return loaders.map(function (loader) {
+    return loader + '-loader' + (SOURCE_MAP ? '?sourceMap' : '')
+  }).join('!')
+}
+
+devConfig.vue.loaders = {
+  // js: 'babel!eslint',
+  js: 'babel',
+  // http://vuejs.github.io/vue-loader/configurations/extract-css.html
+  css: ExtractTextPlugin.extract('vue-style-loader', generateExtractLoaders(['css'])),
+  less: ExtractTextPlugin.extract('vue-style-loader', generateExtractLoaders(['css', 'less'])),
+  sass: ExtractTextPlugin.extract('vue-style-loader', generateExtractLoaders(['css', 'sass'])),
+  stylus: ExtractTextPlugin.extract('vue-style-loader', generateExtractLoaders(['css', 'stylus']))
+}
 
 devConfig.plugins = (devConfig.plugins || []).concat([
-  // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
+  // http://vuejs.github.io/vue-loader/workflow/production.html
+  new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: '"development"'
+    }
+  }),
+  // new webpack.optimize.CommonsChunkPlugin({
+  //   name: 'vendor',
+  //   // filename: "vendor.js"
+  //   // (Give the chunk a different name)
+  //   minChunks: Infinity
+  //   // (with more entries, this ensures that no other module
+  //   //  goes into the vendor chunk)
+  // }),
+  new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: false
+    }
+  }),
   new webpack.optimize.OccurenceOrderPlugin(),
-  new webpack.HotModuleReplacementPlugin(),
-  new webpack.NoErrorsPlugin(),
-  // https://github.com/ampedandwired/html-webpack-plugin
+  // extract css into its own file
+  new ExtractTextPlugin('[name].css'),
+  // generate dist index.html with correct asset hash for caching.
+  // you can customize output by editing /build/index.template.html
+  // see https://github.com/ampedandwired/html-webpack-plugin
   // new HtmlWebpackPlugin({
   //   filename: '../index.html',
   //   template: 'src/index.html',
-  //   chunks: ['app']
+  //   chunks: ['app', 'vendor']
   // })
 ])
 
