@@ -4,12 +4,9 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var devConfig = Object.create(config)
 
-// 静态文件地址
-devConfig.output.publicPath = 'https://st.midea.com/wp/dist'
-
 // naming output files with hashes for better caching.
 // dist/index.html will be auto-generated with correct URLs.
-devConfig.output.filename = '[name].[hash:4].js'
+devConfig.output.filename = '[name].js'
 
 // whether to generate source map for production files.
 // disabling this can speed up the build.

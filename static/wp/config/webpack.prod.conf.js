@@ -4,9 +4,6 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var prodConfig = Object.create(config)
 
-// 静态文件地址
-prodConfig.output.publicPath = 'https://st.midea.com/wp/dist'
-
 // naming output files with hashes for better caching.
 // dist/index.html will be auto-generated with correct URLs.
 prodConfig.output.filename = '[name].[hash:3].js'

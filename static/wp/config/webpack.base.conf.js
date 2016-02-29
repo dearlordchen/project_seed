@@ -4,8 +4,7 @@ module.exports = {
   entry: {},
   output: {
     path: path.resolve(__dirname, '../dist/'),
-    publicPath: '/static/',
-    filename: '[name].js'
+    publicPath: 'https://st.midea.com/wp/dist' // 静态文件地址
   },
   resolve: {
     extensions: ['', '.js', '.vue'],
@@ -50,5 +49,8 @@ module.exports = {
   },
   eslint: {
     formatter: require('eslint-friendly-formatter')
+  },
+  externals: {
+    'jquery': "jQuery"
   }
 }

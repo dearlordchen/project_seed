@@ -4,8 +4,6 @@ var clean = require('gulp-clean')
 var sftp = require('gulp-sftp')
 var webpack = require('webpack')
 var path = require('path')
-var webpackDevConf = require('../../config/webpack.dev.conf.js')
-var webpackProdConf = require('../../config/webpack.prod.conf.js')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var myConfig = require('../../config/my-config.json')
 
@@ -42,6 +40,7 @@ gulp.task('upload-ssi-dev', ['upload-dev'], function () {
 
 // 打包压缩
 gulp.task('webpack-dev', ['clean'], function (cb) {
+  var webpackDevConf = require('../../config/webpack.dev.conf.js')
   var webpackConf = Object.create(webpackDevConf)
 
   webpackConf.entry[viewName] = path.resolve(__dirname, './main.js')
@@ -77,6 +76,7 @@ gulp.task('webpack-dev', ['clean'], function (cb) {
 })
 
 gulp.task('webpack-prod', function (cb) {
+  var webpackProdConf = require('../../config/webpack.prod.conf.js')
   var webpackConf = Object.create(webpackProdConf)
 
   webpackConf.entry[viewName] = path.resolve(__dirname, './main.js')
