@@ -10,6 +10,7 @@ var myConfig = require('../../config/my-config.json')
 
 var viewName = 'm_order'
 
+<<<<<<< HEAD
 // 上传到dev服务器
 gulp.task('upload-dev', ['webpack-dev'], function () {
   return gulp.src('../../dist/' + viewName + '/**')
@@ -95,14 +96,42 @@ gulp.task('webpack-prod', function (cb) {
   ])
 
   webpack(webpackConf, function (err, stats) {
+=======
+gulp.task('watch', function(cb) {
+  var wpConfig = webpackProdConf.getConfig(__dirname, viewName, 'dev')
+  wpConfig.watch = true;
+  runWebpack(wpConfig, cb);
+})
+
+gulp.task('dev', function(cb) {
+  var wpConfig = webpackProdConf.getConfig(__dirname, viewName, 'dev')
+  runWebpack(wpConfig, cb);
+})
+
+gulp.task('build', function(cb) {
+  var wpConfig = webpackProdConf.getConfig(__dirname, viewName, 'prod')
+  runWebpack(wpConfig, cb);
+})
+
+
+function runWebpack(config, cb) {
+  webpack(config, function(err, stats) {
+>>>>>>> 44aaf7e1c75ea9e110a901626920403092ae1432
     if (err) throw new gutil.PluginError('build', err)
+    console.log(stats)
     gutil.log('[build]', stats.toString({
       colors: true
     }))
-    cb()
+    if (!config.watch) {
+      cb()
+    }
   })
+<<<<<<< HEAD
 })
 
 gulp.task('default', ['upload-ssi-dev'], function () {
   gulp.watch('./**', ['upload-ssi-dev'])
 })
+=======
+}
+>>>>>>> 44aaf7e1c75ea9e110a901626920403092ae1432
