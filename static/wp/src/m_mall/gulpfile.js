@@ -10,6 +10,32 @@ var myConfig = require('../../config/my-config.json')
 // view文件名
 var viewName = 'm_mall'
 
+// 配置生成jsi和cssi文件，以及view的html文件
+function generateSinclude (webpackConf, viewName) {
+  webpackConf.plugins = (webpackConf.plugins || []).concat([
+    new HtmlWebpackPlugin({
+      filename: 'html/index.html',
+      template: path.resolve(__dirname, './index.html'),
+      chunks: [viewName]
+    }),
+    new HtmlWebpackPlugin({
+      filename: '../../../sinclude/wp/' + viewName + '/cssi.html',
+      template: path.resolve(__dirname, './cssi.html'),
+      chunks: [viewName]
+    }),
+    new HtmlWebpackPlugin({
+      filename: '../../../sinclude/wp/' + viewName + '/jsi.html',
+      template: path.resolve(__dirname, './jsi.html'),
+      chunks: [viewName]
+    })
+  ])
+  return webpackConf;
+}
+
+//
+// gulp任务
+// -------------------------------
+
 // 清除多余文件
 gulp.task('clean', function () {
   return gulp.src(['../../dist/' + viewName + '/'], {read: false})
@@ -20,12 +46,12 @@ gulp.task('clean', function () {
 gulp.task('upload-dev', ['webpack-dev'], function () {
   return gulp.src('../../dist/' + viewName + '/**')
     .pipe(sftp({
-			host: myConfig.sftp.dev.host,
+      host: myConfig.sftp.dev.host,
       port: myConfig.sftp.dev.port,
-			user: myConfig.sftp.dev.user,
-			pass: myConfig.sftp.dev.pass,
+      user: myConfig.sftp.dev.user,
+      pass: myConfig.sftp.dev.pass,
       remotePath: myConfig.sftp.dev.staticRemotePath + viewName
-		}))
+    }))
 })
 gulp.task('upload-ssi-dev', ['upload-dev'], function () {
   return gulp.src('../../../sinclude/wp/' + viewName + '/**')
@@ -48,23 +74,7 @@ gulp.task('webpack-dev', ['clean'], function (cb) {
   webpackConf.output.path += '/' + viewName + '/'
   webpackConf.output.publicPath += '/' + viewName + '/'
 
-  webpackConf.plugins = (webpackConf.plugins || []).concat([
-    new HtmlWebpackPlugin({
-      filename: 'html/index.html',
-      template: path.resolve(__dirname, './index.html'),
-      chunks: [viewName]
-    }),
-    new HtmlWebpackPlugin({
-      filename: '../../../sinclude/wp/' + viewName + '/cssi.html',
-      template: path.resolve(__dirname, './cssi.html'),
-      chunks: [viewName]
-    }),
-    new HtmlWebpackPlugin({
-      filename: '../../../sinclude/wp/' + viewName + '/jsi.html',
-      template: path.resolve(__dirname, './jsi.html'),
-      chunks: [viewName]
-    })
-  ])
+  generateSinclude(webpackConf, viewName)
 
   webpack(webpackConf, function (err, stats) {
     if (err) throw new gutil.PluginError('build', err)
@@ -75,7 +85,7 @@ gulp.task('webpack-dev', ['clean'], function (cb) {
   })
 })
 
-gulp.task('webpack-prod', function (cb) {
+gulp.task('webpack-prod', ['clean'], function (cb) {
   var webpackProdConf = require('../../config/webpack.prod.conf.js')
   var webpackConf = Object.create(webpackProdConf)
 
@@ -84,23 +94,7 @@ gulp.task('webpack-prod', function (cb) {
   webpackConf.output.path += '/' + viewName + '/'
   webpackConf.output.publicPath += '/' + viewName + '/'
 
-  webpackConf.plugins = (webpackConf.plugins || []).concat([
-    new HtmlWebpackPlugin({
-      filename: 'html/index.html',
-      template: path.resolve(__dirname, './index.html'),
-      chunks: [viewName]
-    }),
-    new HtmlWebpackPlugin({
-      filename: '../../../sinclude/wp/' + viewName + '/cssi.html',
-      template: path.resolve(__dirname, './cssi.html'),
-      chunks: [viewName]
-    }),
-    new HtmlWebpackPlugin({
-      filename: '../../../sinclude/wp/' + viewName + '/jsi.html',
-      template: path.resolve(__dirname, './jsi.html'),
-      chunks: [viewName]
-    })
-  ])
+  generateSinclude(webpackConf, viewName)
 
   webpack(webpackConf, function (err, stats) {
     if (err) throw new gutil.PluginError('build', err)
@@ -108,12 +102,14 @@ gulp.task('webpack-prod', function (cb) {
     gutil.log('[build]', stats.toString({
       colors: true
     }))
-    if (!config.watch) {
-      cb()
-    }
+    cb()
   })
 })
 
 gulp.task('default', ['upload-ssi-dev'], function () {
   gulp.watch('./**', ['upload-ssi-dev'])
+})
+
+gulp.task('beta', function () {
+  gulp.start('upload-ssi-beta')
 })

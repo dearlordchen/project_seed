@@ -6,8 +6,8 @@ var prodConfig = Object.create(config)
 
 // naming output files with hashes for better caching.
 // dist/index.html will be auto-generated with correct URLs.
-prodConfig.output.filename = '[name].[hash:3].js'
-prodConfig.output.chunkFilename = '[id].[hash:3].js'
+prodConfig.output.filename = '[name].[hash:8].js'
+prodConfig.output.chunkFilename = '[id].[hash:8].js'
 
 // whether to generate source map for production files.
 // disabling this can speed up the build.
