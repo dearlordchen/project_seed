@@ -8,7 +8,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var myConfig = require('../../config/my-config.json')
 
 // view文件名
-var viewName = 'm_mall'
+var viewName = '_template'
 
 // 配置生成jsi和cssi文件，以及view的html文件
 function generateSinclude (webpackConf, viewName) {

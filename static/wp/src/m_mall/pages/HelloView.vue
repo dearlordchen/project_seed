@@ -87,7 +87,7 @@
 </div>
 </template>
 
-<script>
+<script lange="babel">
 export default {
   props: {
     header: {
