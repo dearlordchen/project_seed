@@ -2,7 +2,7 @@ var webpack = require('webpack')
 var config = require('./webpack.base.conf')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-var devConfig = Object.create(config)
+var devConfig = Object.assign({}, config)
 
 // naming output files with hashes for better caching.
 // dist/index.html will be auto-generated with correct URLs.
@@ -53,7 +53,7 @@ devConfig.plugins = (devConfig.plugins || []).concat([
   }),
   new webpack.optimize.OccurenceOrderPlugin(),
   // extract css into its own file
-  new ExtractTextPlugin('[name].css'),
+  new ExtractTextPlugin('[name].css')
   // generate dist index.html with correct asset hash for caching.
   // you can customize output by editing /build/index.template.html
   // see https://github.com/ampedandwired/html-webpack-plugin

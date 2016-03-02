@@ -6,6 +6,7 @@ var webpack = require('webpack')
 var path = require('path')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var myConfig = require('../../config/my-config.json')
+var webpackDevConf = require('../../config/webpack.dev.conf.js')
 
 // view文件名
 var viewName = '_template'
@@ -66,7 +67,6 @@ gulp.task('upload-ssi-dev', ['upload-dev'], function () {
 
 // 打包压缩
 gulp.task('webpack-dev', ['clean'], function (cb) {
-  var webpackDevConf = require('../../config/webpack.dev.conf.js')
   var webpackConf = Object.create(webpackDevConf)
 
   webpackConf.entry[viewName] = path.resolve(__dirname, './main.js')
