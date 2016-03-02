@@ -49,8 +49,5 @@ module.exports = {
   },
   eslint: {
     formatter: require('eslint-friendly-formatter')
-  },
-  externals: {
-    'jquery': "jQuery"
   }
 }

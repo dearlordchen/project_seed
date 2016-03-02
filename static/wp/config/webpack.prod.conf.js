@@ -2,7 +2,7 @@ var webpack = require('webpack')
 var config = require('./webpack.base.conf')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-var prodConfig = Object.create(config)
+var prodConfig = Object.assign({}, config)
 
 // naming output files with hashes for better caching.
 // dist/index.html will be auto-generated with correct URLs.

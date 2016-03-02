@@ -1,3 +1,4 @@
+var _ = require('lodash')
 var gulp = require('gulp')
 var gutil = require('gulp-util')
 var clean = require('gulp-clean')
@@ -67,12 +68,12 @@ gulp.task('upload-ssi-dev', ['upload-dev'], function () {
 // 打包压缩
 gulp.task('webpack-dev', ['clean'], function (cb) {
   var webpackDevConf = require('../../config/webpack.dev.conf.js')
-  var webpackConf = Object.create(webpackDevConf)
+  var webpackConf = _.clone(webpackDevConf)
 
   webpackConf.entry[viewName] = path.resolve(__dirname, './main.js')
 
-  webpackConf.output.path += '/' + viewName + '/'
-  webpackConf.output.publicPath += '/' + viewName + '/'
+  webpackConf.output.path = path.resolve(__dirname, '../../dist/') + '/' + viewName + '/'
+  webpackConf.output.publicPath = myConfig.static.publicPath + viewName + '/'
 
   generateSinclude(webpackConf, viewName)
 
@@ -87,12 +88,12 @@ gulp.task('webpack-dev', ['clean'], function (cb) {
 
 gulp.task('webpack-prod', ['clean'], function (cb) {
   var webpackProdConf = require('../../config/webpack.prod.conf.js')
-  var webpackConf = Object.create(webpackProdConf)
+  var webpackConf = _.clone(webpackProdConf)
 
   webpackConf.entry[viewName] = path.resolve(__dirname, './main.js')
 
-  webpackConf.output.path += '/' + viewName + '/'
-  webpackConf.output.publicPath += '/' + viewName + '/'
+  webpackConf.output.path = path.resolve(__dirname, '../../dist/') + '/' + viewName + '/'
+  webpackConf.output.publicPath = myConfig.static.publicPath + viewName + '/'
 
   generateSinclude(webpackConf, viewName)
 
