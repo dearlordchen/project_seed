@@ -1,7 +1,7 @@
 {
   "static": {
     "publicPath": "https://st.midea.com/wp/dist/"
-  }
+  },
   "sftp": {
     "dev": {
       "host": "10.133.145.102",
